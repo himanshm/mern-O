@@ -10,9 +10,7 @@ const router = createBrowserRouter(createRoutesFromElements(Root));
 function App() {
   return (
     <div className='App'>
-      <div className='pages'>
-        <RouterProvider router={router} />
-      </div>
+      <RouterProvider router={router} />
     </div>
   );
 }
