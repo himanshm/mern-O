@@ -2,6 +2,8 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
 
 import workoutRoutes from './routes/workout';
+import userRoutes from './routes/user';
+
 import { mongooseConnect } from './config/database';
 
 // Express app
@@ -37,6 +39,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Routes
 app.use('/api/workouts', workoutRoutes);
+app.use('/api/user', userRoutes);
 
 //Listen for requests
 async function initializeServer() {
