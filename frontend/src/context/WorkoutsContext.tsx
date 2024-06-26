@@ -15,6 +15,7 @@ export type WorkoutState = {
 export type WorkoutContextType = WorkoutState & {
   createWorkout: (workout: Workout) => void;
   setWorkouts: (workouts: Workout[]) => void;
+  deleteWorkout: (deletedWorkout: Workout) => void;
 };
 
 export const WorkoutContext = createContext<WorkoutContextType | undefined>(
@@ -39,7 +40,15 @@ type CreateWorkoutAction = {
   payload: Workout;
 };
 
-type WorkoutAction = SetWorkoutsAction | CreateWorkoutAction;
+type DeleteWorkoutAction = {
+  type: 'DELETE_WORKOUT';
+  payload: Workout;
+};
+
+type WorkoutAction =
+  | SetWorkoutsAction
+  | CreateWorkoutAction
+  | DeleteWorkoutAction;
 
 function workoutsReducer(
   state: WorkoutState,
@@ -55,6 +64,12 @@ function workoutsReducer(
         workouts: [action.payload, ...state.workouts],
       };
 
+    case 'DELETE_WORKOUT':
+      return {
+        workouts: state.workouts.filter(
+          (workout) => workout._id !== action.payload._id
+        ),
+      };
     default:
       return state;
   }
@@ -80,10 +95,18 @@ function WorkoutContextProvider({ children }: ContextProviderProps) {
     });
   }
 
+  function handleWorkoutDeletion(deletedWorkout: Workout) {
+    workoutDispatch({
+      type: 'DELETE_WORKOUT',
+      payload: deletedWorkout,
+    });
+  }
+
   const contextValue: WorkoutContextType = {
     workouts: workoutState.workouts,
     createWorkout: handleCreateNewWorkout,
     setWorkouts: handleShowAllWorkouts,
+    deleteWorkout: handleWorkoutDeletion,
   };
 
   return (

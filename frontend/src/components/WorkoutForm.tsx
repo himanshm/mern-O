@@ -40,15 +40,15 @@ function WorkoutForm() {
         body: JSON.stringify(formattedWorkout),
       });
 
-      const workout = await res.json();
+      const createdWorkout = await res.json();
 
-      if (!res.ok || workout.error) {
-        throw new Error(workout.error || 'Failed to add workout!');
+      if (!res.ok || createdWorkout.error) {
+        throw new Error(createdWorkout.error || 'Failed to add workout!');
       }
 
       setWorkout(initialState);
       console.log('Workout added successfully', workout);
-      createWorkout(workout);
+      createWorkout(createdWorkout);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
