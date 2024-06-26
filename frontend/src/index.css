@@ -85,6 +85,10 @@ header a {
   color: #333;
 }
 
+.workout-details span .material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
 /* new workout form */
 form h3 {
   font-size: 2rem;
@@ -124,4 +128,8 @@ div.error {
   border-radius: 4px;
   margin: 2rem 0;
   font-size: 1.2rem;
+}
+
+input.error {
+  border: 1px solid var(--error);
 }

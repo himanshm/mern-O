@@ -14,6 +14,7 @@ function WorkoutForm() {
   const [workout, setWorkout] = useState<Workout>(initialState);
 
   const [error, setError] = useState<string | null>(null);
+  const [emptyFields, setEmptyFields] = useState<string[]>([]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,11 +43,15 @@ function WorkoutForm() {
 
       const createdWorkout = await res.json();
 
-      if (!res.ok || createdWorkout.error) {
+      if (!res.ok) {
+        if (createdWorkout.emptyFields) {
+          setEmptyFields(createdWorkout.emptyFields);
+        }
         throw new Error(createdWorkout.error || 'Failed to add workout!');
       }
 
       setWorkout(initialState);
+      setEmptyFields([]);
       console.log('Workout added successfully', workout);
       createWorkout(createdWorkout);
     } catch (err) {
@@ -68,6 +73,7 @@ function WorkoutForm() {
         name='title'
         onChange={handleChange}
         value={workout.title}
+        className={emptyFields.includes('title') ? 'error' : ''}
       />
 
       <label>Load (in kg):</label>
@@ -76,6 +82,7 @@ function WorkoutForm() {
         name='load'
         onChange={handleChange}
         value={workout.load}
+        className={emptyFields.includes('load') ? 'error' : ''}
       />
 
       <label>Reps:</label>
@@ -84,6 +91,7 @@ function WorkoutForm() {
         name='reps'
         onChange={handleChange}
         value={workout.reps}
+        className={emptyFields.includes('reps') ? 'error' : ''}
       />
 
       <button type='submit'>Add Workout</button>

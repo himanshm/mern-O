@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useReducer } from 'react';
+import { createContext, ReactNode, useReducer, useMemo } from 'react';
 
 export type Workout = {
   _id: string;
@@ -63,7 +63,6 @@ function workoutsReducer(
       return {
         workouts: [action.payload, ...state.workouts],
       };
-
     case 'DELETE_WORKOUT':
       return {
         workouts: state.workouts.filter(
@@ -102,12 +101,15 @@ function WorkoutContextProvider({ children }: ContextProviderProps) {
     });
   }
 
-  const contextValue: WorkoutContextType = {
-    workouts: workoutState.workouts,
-    createWorkout: handleCreateNewWorkout,
-    setWorkouts: handleShowAllWorkouts,
-    deleteWorkout: handleWorkoutDeletion,
-  };
+  const contextValue = useMemo(
+    () => ({
+      workouts: workoutState.workouts,
+      createWorkout: handleCreateNewWorkout,
+      setWorkouts: handleShowAllWorkouts,
+      deleteWorkout: handleWorkoutDeletion,
+    }),
+    [workoutState.workouts]
+  );
 
   return (
     <WorkoutContext.Provider value={contextValue}>
