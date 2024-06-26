@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useWorkoutContext } from '../hooks/useWorkoutContext';
 
 interface Workout {
   title: string;
@@ -9,6 +10,7 @@ interface Workout {
 const initialState: Workout = { title: '', load: '', reps: '' };
 
 function WorkoutForm() {
+  const { createWorkout } = useWorkoutContext();
   const [workout, setWorkout] = useState<Workout>(initialState);
 
   const [error, setError] = useState<string | null>(null);
@@ -38,15 +40,15 @@ function WorkoutForm() {
         body: JSON.stringify(formattedWorkout),
       });
 
-      const resData = await res.json();
+      const workout = await res.json();
 
-      if (!res.ok || resData.error) {
-        console.log(resData);
-        throw new Error(resData.error || 'Failed to add workout!');
+      if (!res.ok || workout.error) {
+        throw new Error(workout.error || 'Failed to add workout!');
       }
 
       setWorkout(initialState);
-      console.log('Workout added successfully', resData);
+      console.log('Workout added successfully', workout);
+      createWorkout(workout);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);

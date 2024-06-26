@@ -1,20 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 // Components
 import WorkoutDetails from '../components/WorkoutDetails';
 import WorkoutForm from '../components/WorkoutForm';
-
-// Type Defs
-export type Workout = {
-  _id: string;
-  title: string;
-  reps: number;
-  load: number;
-  createdAt: string;
-};
+import { useWorkoutContext } from '../hooks/useWorkoutContext';
 
 function HomePage() {
-  const [workouts, setWorkouts] = useState<Workout[] | null>(null);
+  const { workouts, setWorkouts } = useWorkoutContext();
 
   useEffect(() => {
     const fetchWorkouts = async () => {

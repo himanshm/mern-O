@@ -1,4 +1,4 @@
-import { type Workout } from '../pages/Home';
+import { type Workout } from '../context/WorkoutsContext';
 
 // Type Defs
 type WorkoutDetailsProps = {

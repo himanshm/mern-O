@@ -43,7 +43,7 @@ export const createWorkout = async (
 
   try {
     const workout = await Workout.create({ title, load, reps });
-    res.status(200).json({ workout });
+    res.status(200).json(workout);
   } catch (err: unknown) {
     if (err instanceof Error) {
       res.status(400).json({ error: err.message });
