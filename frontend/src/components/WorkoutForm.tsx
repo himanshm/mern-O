@@ -1,0 +1,93 @@
+import { ChangeEvent, FormEvent, useState } from 'react';
+
+interface Workout {
+  title: string;
+  load: string;
+  reps: string;
+}
+
+const initialState: Workout = { title: '', load: '', reps: '' };
+
+function WorkoutForm() {
+  const [workout, setWorkout] = useState<Workout>(initialState);
+
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setWorkout({
+      ...workout,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+
+    const formattedWorkout = {
+      title: workout.title,
+      load: workout.load ? Number(workout.load) : null,
+      reps: workout.reps ? Number(workout.reps) : null,
+    };
+
+    try {
+      const res = await fetch('http://localhost:8080/api/workouts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formattedWorkout),
+      });
+
+      const resData = await res.json();
+
+      if (!res.ok || resData.error) {
+        console.log(resData);
+        throw new Error(resData.error || 'Failed to add workout!');
+      }
+
+      setWorkout(initialState);
+      console.log('Workout added successfully', resData);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+    }
+  };
+
+  return (
+    <form className='create' onSubmit={handleSubmit}>
+      <h3>Add a New Workout</h3>
+
+      <label>Excercise Title:</label>
+      <input
+        type='text'
+        name='title'
+        onChange={handleChange}
+        value={workout.title}
+      />
+
+      <label>Load (in kg):</label>
+      <input
+        type='number'
+        name='load'
+        onChange={handleChange}
+        value={workout.load}
+      />
+
+      <label>Reps:</label>
+      <input
+        type='number'
+        name='reps'
+        onChange={handleChange}
+        value={workout.reps}
+      />
+
+      <button type='submit'>Add Workout</button>
+      {error && <div className='error'>{error}</div>}
+    </form>
+  );
+}
+
+export default WorkoutForm;

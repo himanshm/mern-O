@@ -84,3 +84,44 @@ header a {
   border-radius: 50%;
   color: #333;
 }
+
+/* new workout form */
+form h3 {
+  font-size: 2rem;
+}
+
+form label {
+  font-size: 1.3rem;
+}
+
+label,
+input {
+  display: block;
+}
+input {
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+form button {
+  background: var(--primary);
+  border: 0;
+  color: #fff;
+  padding: 1rem;
+  font-family: 'Poppins';
+  border-radius: 4px;
+  cursor: pointer;
+}
+div.error {
+  padding: 1rem;
+  background: #ffefef;
+  border: 1px solid var(--error);
+  color: var(--error);
+  border-radius: 4px;
+  margin: 2rem 0;
+  font-size: 1.2rem;
+}

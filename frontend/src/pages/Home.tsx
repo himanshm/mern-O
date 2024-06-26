@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 
 // Components
 import WorkoutDetails from '../components/WorkoutDetails';
+import WorkoutForm from '../components/WorkoutForm';
 
 // Type Defs
 export type Workout = {
   _id: string;
   title: string;
-  reps: string;
-  load: string;
+  reps: number;
+  load: number;
   createdAt: string;
 };
 
@@ -37,6 +38,7 @@ function HomePage() {
             <WorkoutDetails key={workout._id} workout={workout} />
           ))}
       </div>
+      <WorkoutForm />
     </div>
   );
 }
