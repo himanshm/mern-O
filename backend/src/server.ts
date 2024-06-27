@@ -1,10 +1,10 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
 
-import workoutRoutes from './src/routes/workout';
-import userRoutes from './src/routes/user';
+import workoutRoutes from './routes/workout';
+import userRoutes from './routes/user';
 
-import { mongooseConnect } from './config/database';
+import { mongooseConnect } from '../config/database';
 
 // Express app
 const app: Express = express();
